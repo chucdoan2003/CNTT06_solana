@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NFTController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/create-collection-form', [NFTController::class, 'createCollectionForm']);
+Route::post('/create-collection', [NFTController::class, 'createCollection']);
+Route::get('/create', [NFTController::class, 'createForm']);
+Route::post('/create-nft', [NFTController::class, 'createNFT']);
