@@ -17,4 +17,4 @@ use App\Http\Controllers\WalletController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/wallet', [WalletController::class, 'postWallet']);
+Route::post('/wallet', [WalletController::class, 'postWallet']);
