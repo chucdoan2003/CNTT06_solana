@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateWalletsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('Wallets', function (Blueprint $table) {
             $table->id(); // ID tự động tăng
             $table->string('wallet', 100); // cột wallet có độ dài 100 kí tự
-            $table->string('gmail', 50); // cột gmail có độ dài 50 kí tự
+            $table->string('gmail', 50)->nullable(); // cột gmail có độ dài 50 kí tự
             $table->timestamps(); // tự động tạo cột created_at và updated_at
         });
     }
@@ -28,6 +28,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('Wallets');
     }
 }

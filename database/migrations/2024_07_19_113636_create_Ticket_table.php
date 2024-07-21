@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVeTable extends Migration
+class CreateTicketTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateVeTable extends Migration
      */
     public function up()
     {
-        Schema::create('ve', function (Blueprint $table) {
+        Schema::create('Ticket', function (Blueprint $table) {
             $table->id(); // ID tự động tăng
             $table->string('name', 50); // cột name có độ dài 50 kí tự
             $table->dateTime('ngayphathanh'); // cột ngayphathanh kiểu dateTime
@@ -35,6 +35,6 @@ class CreateVeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ve');
+        Schema::dropIfExists('Ticket');
     }
 }
