@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/wallet', [WalletController::class, 'postWallet']);
 Route::post('/category/add', [CategoryController::class, 'addCate']);
 Route::post('/ticket/add', [TicketController::class, 'addTicket']);
+Route::post('/ticket/list', [TicketController::class, 'listTicket']);

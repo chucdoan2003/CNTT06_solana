@@ -17,4 +17,10 @@ class TicketController extends Controller
     
         return response()->json(['message' => 'Thêm mới thành công !', 'data' => $ticket]);
     }
+
+    public function listTicket()
+    {
+        $items = Ticket::all(); // Lấy tất cả các mục từ cơ sở dữ liệu
+        return response()->json($items); // Trả về dữ liệu dưới dạng JSON
+    }
 }
