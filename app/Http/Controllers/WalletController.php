@@ -2,40 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\WalletRequest;
 use Illuminate\Http\Request;
 use App\Models\Wallet;
+use Dotenv\Exception\ValidationException;
 
 class WalletController extends Controller
 {
-    public function postWallet(Request $request)
+    public function postWallet(WalletRequest $request)
     {
-        // Validate dữ liệu đầu vào
-        $validatedData = $request->validate([
-            'address' => 'required|string|unique:wallets',
-            'balance' => 'required|numeric',
-            'gmail' => 'required|string|email',
-        ]);
 
-        // Lấy dữ liệu từ request
-        $walletData = $request->all();
-        $gmail = $walletData['gmail'];
-        $address = $walletData['address']; // Đổi tên biến cho phù hợp với tên cột trong cơ sở dữ liệu
+        $wallet = $request['wallet'];
+        $gmail = $request['gmail'] ?? null;
 
-
-        // Kiểm tra xem gmail và địa chỉ ví đã tồn tại trong cơ sở dữ liệu hay chưa
-        $existingWallet = Wallet::where('gmail', $gmail)
-            ->where('address', $address)
+        $existingWallet = Wallet::where('wallet', $wallet)
+            // ->where('gmail', $gmail)
             ->first();
 
         if ($existingWallet) {
             return response()->json(['message' => 'Wallet xác thực thành công', 'wallet' => $existingWallet], 200);
         }
 
+        // orm
+        $newWallet = Wallet::create([
+            'wallet' => $wallet,
+            'gmail' => $gmail,
 
-        // Lưu trữ dữ liệu ví mới vào cơ sở dữ liệu
-        $wallet = Wallet::create([
-            'address' => $validatedData['address'],
-            'gmail' => $validatedData['gmail'],
         ]);
 
 
