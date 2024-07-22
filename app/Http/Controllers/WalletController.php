@@ -31,7 +31,6 @@ class WalletController extends Controller
         ]);
 
 
-        return response()->json(['message' => 'Wallet được thêm mới', 'wallet' => $newWallet]);
-        
+        return response()->json(['message' => 'Wallet data stored successfully!', 'wallet' => $wallet]);
     }
 }
