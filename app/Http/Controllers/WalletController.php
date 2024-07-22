@@ -38,7 +38,7 @@ class WalletController extends Controller
             'gmail' => $validatedData['gmail'],
         ]);
 
-        
+
         return response()->json(['message' => 'Wallet data stored successfully!', 'wallet' => $wallet]);
     }
 }
