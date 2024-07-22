@@ -9,7 +9,10 @@ class Wallet extends Model
 {
     use HasFactory;
 
+    // protected $table = "wallet";
+
     protected $fillable = [
-        'address', 'gmail'
+        'wallet', 'gmail'
     ];
+
 }

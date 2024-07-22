@@ -2,53 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    //GET LIST CATE
+    public function addCate(CategoryRequest $request)
+{
+    try {
+        $name = $request->input('name');
+        $Cate = Category::create([
+            'name' => $name,
+        ]);
+        return response()->json(['message' => 'Thêm mới thành công!', 'data' => $Cate]);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Lỗi xảy ra', 'error' => $e->getMessage()], 500);
+    }
+}
     public function index()
     {
         $categories = Category::all();
         return response()->json($categories);
     }
 
-
-    //CREAT NEW CATE
-    public function store(Request $request)
+    public function update(CategoryRequest $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:50',
-        ]);
-
-        $category = Category::create([
-            'name' => $validatedData['name'],
-        ]);
-
-        return response()->json(['message' => 'Category created successfully!', 'category' => $category], 201);
-    }
-
-    // UPDATE CATEGORY
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:50',
-        ]);
-
+        $name = $request->input('name');
         $category = Category::findOrFail($id);
-        $category->name = $validatedData['name'];
-        $category->save();
+        $category->update([
+            'name' => $name,
+        ]);
 
-        return response()->json(['message' => 'Category updated successfully!', 'category' => $category]);
+        return response()->json(['message' => 'Cập nhật thành công!', 'data' => $category]);
     }
 
-    // DELETE CATEGORY
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
         $category->delete();
 
-        return response()->json(['message' => 'Category deleted successfully!']);
+        return response()->json(['message' => 'Xóa thành công!']);
     }
 }
