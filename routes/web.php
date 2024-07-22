@@ -22,4 +22,4 @@ Route::get('/', function () {
 Route::get('/create-collection-form', [NFTController::class, 'createCollectionForm']);
 Route::post('/create-collection', [NFTController::class, 'createCollection']);
 Route::get('/create', [NFTController::class, 'createForm']);
-Route::post('/create-nft', [NFTController::class, 'createNFT']);
+Route::get('/create-nft', [NFTController::class, 'createNFT']);
