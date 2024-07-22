@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post('/wallet', [WalletController::class, 'postWallet']);
 
-Route::get('/items-by-category/{categoryName}', [ItemController::class, 'getItemsByCategory']);
+
 Route::post('/ticket/add', [TicketController::class, 'addTicket']);
 Route::get('/ticket/list', [TicketController::class, 'listTicket']);
 
@@ -32,3 +32,5 @@ Route::post('/category/add', [CategoryController::class, 'addCate']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::put('/update-category/{id}', [CategoryController::class, 'update']);
 Route::delete('/delete-category/{id}', [CategoryController::class, 'destroy']);
+
+Route::get('/items-by-category/{cateID}', [CategoryController::class, 'getItemsByCategoryId']);

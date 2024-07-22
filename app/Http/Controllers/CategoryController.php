@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Item;
 
 class CategoryController extends Controller
 {
     public function addCate(CategoryRequest $request)
-{
-    try {
-        $name = $request->input('name');
-        $Cate = Category::create([
-            'name' => $name,
-        ]);
-        return response()->json(['message' => 'Thêm mới thành công!', 'data' => $Cate]);
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'Lỗi xảy ra', 'error' => $e->getMessage()], 500);
+    {
+        try {
+            $name = $request->input('name');
+            $Cate = Category::create([
+                'name' => $name,
+            ]);
+            return response()->json(['message' => 'Thêm mới thành công!', 'data' => $Cate]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Lỗi xảy ra', 'error' => $e->getMessage()], 500);
+        }
     }
-}
     public function index()
     {
         $categories = Category::all();
@@ -42,5 +43,15 @@ class CategoryController extends Controller
         $category->delete();
 
         return response()->json(['message' => 'Xóa thành công!']);
+    }
+
+    public function getItemsByCategoryId($cateID)
+    {
+        $items = Item::where('cateID', $cateID)->get();
+        if ($items->isEmpty()) {
+            return response()->json(['message' => 'Items không tồn tại trong Category'], 404);
+        }
+
+        return response()->json(['items' => $items], 200);
     }
 }
