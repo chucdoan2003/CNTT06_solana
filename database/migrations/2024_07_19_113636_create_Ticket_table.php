@@ -16,6 +16,7 @@ class CreateTicketTable extends Migration
         Schema::create('Ticket', function (Blueprint $table) {
             $table->id(); // ID tự động tăng
             $table->string('name', 50); // cột name có độ dài 50 kí tự
+            $table->string('urlimage', 50); // cột name có độ dài 50 kí tự
             $table->dateTime('ngayphathanh'); // cột ngayphathanh kiểu dateTime
             $table->dateTime('ngayketthuc'); // cột ngayketthuc kiểu dateTime
             $table->string('diachi', 100); // cột diachi có độ dài 100 kí tự
