@@ -25,6 +25,7 @@ Route::post('/wallet', [WalletController::class, 'postWallet']);
 
 Route::post('/ticket/add', [TicketController::class, 'addTicket']);
 Route::get('/ticket/list', [TicketController::class, 'listTicket']);
+Route::get('/tickets-by-category/{cateID}', [TicketController::class, 'getTicketsByCategoryId']);
 
 
 // CATEGORY:
@@ -33,4 +34,4 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::put('/update-category/{id}', [CategoryController::class, 'update']);
 Route::delete('/delete-category/{id}', [CategoryController::class, 'destroy']);
 
-Route::get('/items-by-category/{cateID}', [CategoryController::class, 'getItemsByCategoryId']);
+

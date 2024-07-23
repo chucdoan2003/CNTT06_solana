@@ -14,7 +14,7 @@ class TicketController extends Controller
         $data = $request->all();
 
         $ticket = Ticket::create($data);
-    
+
         return response()->json(['message' => 'Thêm mới thành công !', 'data' => $ticket]);
     }
 
@@ -22,5 +22,14 @@ class TicketController extends Controller
     {
         $items = Ticket::all(); // Lấy tất cả các mục từ cơ sở dữ liệu
         return response()->json($items); // Trả về dữ liệu dưới dạng JSON
+    }
+    public function getTicketsByCategoryId($cateID)
+    {
+        $tickets = Ticket::where('cateID', $cateID)->get();
+        if ($tickets->isEmpty()) {
+            return response()->json(['message' => 'Tickets không tồn tại trong Category'], 404);
+        }
+
+        return response()->json(['tickets' => $tickets], 200);
     }
 }

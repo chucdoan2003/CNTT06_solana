@@ -45,16 +45,6 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Xóa thành công!']);
     }
 
-    public function getItemsByCategoryId($cateID)
-    {
-        $items = Item::where('cateID', $cateID)->get();
-        if ($items->isEmpty()) {
-            return response()->json(['message' => 'Items không tồn tại trong Category'], 404);
-        }
-
-        return response()->json(['items' => $items], 200);
-    }
 
 
-    
 }
