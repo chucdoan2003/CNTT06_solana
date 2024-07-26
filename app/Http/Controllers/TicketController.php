@@ -23,6 +23,7 @@ class TicketController extends Controller
         $items = Ticket::all(); // Lấy tất cả các mục từ cơ sở dữ liệu
         return response()->json($items); // Trả về dữ liệu dưới dạng JSON
     }
+
     public function getTicketsByCategoryId($cateID)
     {
         $tickets = Ticket::where('cateID', $cateID)->get();
@@ -32,4 +33,15 @@ class TicketController extends Controller
 
         return response()->json(['tickets' => $tickets], 200);
     }
+
+    public function getTicketsById($id)
+    {
+        $ticket = Ticket::where('id', $id)->get();
+        if ($ticket->isEmpty()) {
+            return response()->json(['message' => 'Tickets không tồn tại'], 404);
+        }
+
+        return response()->json(['tickets' => $ticket], 200);
+    }
+
 }

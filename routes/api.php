@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\NFTcontroller;
 use App\Http\Controllers\TicketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ Route::post('/wallet', [WalletController::class, 'postWallet']);
 Route::post('/ticket/add', [TicketController::class, 'addTicket']);
 Route::get('/ticket/list', [TicketController::class, 'listTicket']);
 Route::get('/tickets-by-category/{cateID}', [TicketController::class, 'getTicketsByCategoryId']);
+Route::get('/ticket/detail/{id}', [TicketController::class, 'getTicketsById']);
 
 
 // CATEGORY:
@@ -35,3 +37,5 @@ Route::put('/update-category/{id}', [CategoryController::class, 'update']);
 Route::delete('/delete-category/{id}', [CategoryController::class, 'destroy']);
 
 
+// add ticket by gameshift
+Route::post('/Ticket/add/gameshift', [NFTcontroller::class, 'newTicket']);

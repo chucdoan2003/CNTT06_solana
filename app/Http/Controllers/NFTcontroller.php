@@ -2,63 +2,79 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NFTRequest;
+use App\Http\Requests\TicketRequest;
+use App\Models\Ticket;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class NFTcontroller extends Controller
 {
-    public function createForm()
+    public function newTicket(TicketRequest $request)
     {
-        return view('create');
-    }
+        $dataID = $request->id;
+        $dataWallet = $request->wallet;
+        $soluong = $request->soluong;
+    
+        $ticket = Ticket::where('id', $dataID)->first();
+        $mota = $ticket->mota;
+        $image = $ticket->urlimage;
+        $name = $ticket->name;
 
-    public function createNFT(Request $request)
-    {
-        $myHeaders = [
-            'x-api-key' => 'JwjL_ALgf3syYbXi',
-        ];
 
-        $rawBody = [
-            'network' => 'devnet',
-            'metadata_uri' => 'https://brown-loyal-stoat-734.mypinata.cloud/ipfs/QmR5Tyx3MvpiCKtjTVC4wVzRigpujCv9bnvQKU4ZMQzN5N',
-            'max_supply' => 0,
-            'collection_address' => '3F3G122hfRQ6E7aRQLhdXvabxtfhGHF89UVLvHR4pmn9',
-            'receiver' => '5gTrAW9WANnqV71PBZHy7QqHcYaTbhmDuiU767Eai4js',
-            'fee_payer' => '5gTrAW9WANnqV71PBZHy7QqHcYaTbhmDuiU767Eai4js',
-            'service_charge' => [
-                'receiver' => '5gTrAW9WANnqV71PBZHy7QqHcYaTbhmDuiU767Eai4js',
-                'amount' => 0.01,
-            ],
-            'priority_fee' => 100,
-        ];
 
-        try {
-            $response = Http::withHeaders($myHeaders)
-                ->post('https://api.shyft.to/sol/v1/nft/create_from_metadata', $rawBody);
-
-            $result = $response->json();
-            // In giá trị ra để kiểm tra
-            Log::info('Shyft API response:', $result);
-
-            if ($response->successful() && isset($result['result']['encoded_transaction'])) {
-                return response()->json([
-                    'message' => 'NFT Created Successfully!',
-                    'data' => [
-                        'encoded_transaction' => $result['result']['encoded_transaction'],
-                    ],
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => 'Failed to create NFT',
-                    'error' => $result,
-                ], $response->status());
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to create NFT',
-                'error' => $e->getMessage(),
-            ], 500);
+        $user = Wallet::where('wallet', $dataWallet)->first();
+        $walletUser = $user->wallet;
+    
+        // Kiểm tra nếu không tìm thấy ticket hoặc user
+        if (!$ticket || !$user) {
+            return response()->json(['error' => 'Ticket hoặc User không tồn tại'], 404);
         }
+    
+        
+    
+        $client = new \GuzzleHttp\Client();
+    
+        //api tạo nft
+        $response = $client->request('POST', 'https://api.gameshift.dev/nx/unique-assets', [
+            'body' => json_encode([
+                'details' => [
+                    'collectionId' => 'ff6402d5-754d-4849-aa9d-039ce8579fab',
+                    'description' => $mota,
+                    'imageUrl' => $image,
+                    'name' => $name
+                ],
+                'destinationUserReferenceId' => '3'
+            ]),
+            'headers' => [
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+                'x-api-key' => 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiI5NzEyODFhMC0yNTU1LTQ4MzQtOWFkYS02MDFiZTM0NjRmMWUiLCJzdWIiOiI2OTc3NjAzNS01OWQ0LTRhOTctOTM5MC03NDY3OWI3M2JiNTYiLCJpYXQiOjE3MjEzMTIyNjR9.4ggWNZZ47uJN4ntux_Tm87kf3XXQaWaRo3DA2qp6De0',
+            ],
+        ]);
+    
+        $responseData = json_decode($response->getBody(), true);
+        $assetId = $responseData['id'];
+    
+        // tranfer nft
+        $transferResponse = $client->request('POST', "https://api.gameshift.dev/nx/users/3/items/{$assetId}/transfer", [
+            'body' => json_encode([
+                'destinationWallet' => $walletUser,
+                'quantity' => $soluong
+            ]),
+            'headers' => [
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+                'x-api-key' => 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiI5NzEyODFhMC0yNTU1LTQ4MzQtOWFkYS02MDFiZTM0NjRmMWUiLCJzdWIiOiI2OTc3NjAzNS01OWQ0LTRhOTctOTM5MC03NDY3OWI3M2JiNTYiLCJpYXQiOjE3MjEzMTIyNjR9.4ggWNZZ47uJN4ntux_Tm87kf3XXQaWaRo3DA2qp6De0',
+            ],
+        ]);
+    
+        // Xử lý response của transfer nếu cần
+        $transferResponseData = json_decode($transferResponse->getBody(), true);
+        return response()->json($transferResponseData);
     }
+    
+
 }
