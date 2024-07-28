@@ -26,6 +26,16 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
+    public function getCateById($id)
+    {
+        $cate = Category::where('id', $id)->get();
+        if ($cate->isEmpty()) {
+            return response()->json(['message' => 'Cate không tồn tại'], 404);
+        }
+
+        return response()->json(['tickets' => $cate], 200);
+    }
+
     public function update(CategoryRequest $request, $id)
     {
         $name = $request->input('name');
