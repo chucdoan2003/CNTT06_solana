@@ -32,7 +32,7 @@ Route::get('/ticket/detail/{id}', [TicketController::class, 'getTicketsById']);
 
 // CATEGORY:
 Route::post('/category/add', [CategoryController::class, 'addCate']);
-Route::get('/category/detail/{id}', [CategoryController::class, 'addCate']);
+Route::get('/category/detail/{id}', [CategoryController::class, 'getCateById']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::put('/update-category/{id}', [CategoryController::class, 'update']);
 Route::delete('/delete-category/{id}', [CategoryController::class, 'destroy']);
