@@ -29,10 +29,11 @@ class BaseRequest extends FormRequest
             //
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         $errors = $validator->errors()->all();
-
+        
         throw new HttpResponseException(response()->json([
             'success' => false,
             'message' => 'Xác thực không thành công',

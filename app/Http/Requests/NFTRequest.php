@@ -39,7 +39,7 @@ class NFTRequest extends BaseRequest
             'wallet.required' => 'wallet là bắt buộc.',
             'wallet.string' => 'wallet phải là chuỗi.',
             'wallet.max' => 'wallet không vượt quá 255 ký tự.',
-            'soluong.required' => 'name là bắt buộc.',
+            'soluong.required' => 'soluong là bắt buộc.',
            
         ];
     }

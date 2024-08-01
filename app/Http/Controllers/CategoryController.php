@@ -10,7 +10,8 @@ class CategoryController extends Controller
 {
     public function addCate(CategoryRequest $request)
     {
-        try {
+
+        try {;
             $name = $request->input('name');
             $Cate = Category::create([
                 'name' => $name,

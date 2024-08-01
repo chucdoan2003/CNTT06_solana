@@ -19,7 +19,8 @@ class TicketController extends Controller
     }
 
     public function listTicket()
-    {
+    {   
+        
         $items = Ticket::all(); // Lấy tất cả các mục từ cơ sở dữ liệu
         return response()->json($items); // Trả về dữ liệu dưới dạng JSON
     }
