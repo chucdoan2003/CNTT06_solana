@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActiveController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\NFTcontroller;
@@ -40,3 +41,5 @@ Route::delete('/delete-category/{id}', [CategoryController::class, 'destroy']);
 
 // add ticket by gameshift
 Route::post('/Ticket/add/gameshift', [NFTcontroller::class, 'newTicket']);
+
+Route::get('/active/list', [ActiveController::class, 'list']);
