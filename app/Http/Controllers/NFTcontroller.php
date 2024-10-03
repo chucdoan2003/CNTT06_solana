@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Log;
 
 class NFTcontroller extends Controller
 {
+    public function createCollectionForm(){
+        return "hihi";
+    }
     public function newTicket(Request $request)
     {
         $dataID = $request->id;
